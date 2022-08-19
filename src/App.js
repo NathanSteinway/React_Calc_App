@@ -68,7 +68,7 @@ function evaluate({ currentOperand, previousOperand, operation}) {
       computation = prev / current
       break
   }
-  return computation
+  return computation.toString()
 }
 
 function App() {
