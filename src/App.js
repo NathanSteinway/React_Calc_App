@@ -18,7 +18,7 @@ function reducer(state, {type, payload}) {
         return {
           ...state,
           currentOperand: payload.digit,
-          overwrite: false
+          overwrite: false,
         }
       }
       if (payload.digit === "0" && state.currentOperand === "0") {
@@ -47,14 +47,14 @@ function reducer(state, {type, payload}) {
           ...state,
           operation: payload.operation,
           previousOperand: state.currentOperand,
-          currentOperand: null
+          currentOperand: null,
         }
       }
       return {
         ...state,
         previousOperand: evaluate(state),
         operation: payload.operation,
-        currentOperand: null
+        currentOperand: null,
       }
     case ACTIONS.CLEAR:
       return {}
@@ -63,7 +63,7 @@ function reducer(state, {type, payload}) {
         return {
           ...state,
           overwrite: false,
-          currentOperand: null
+          currentOperand: null,
         }
       }
       if (state.currentOperand == null) return state
@@ -90,7 +90,7 @@ function reducer(state, {type, payload}) {
     
 }
 
-function evaluate({ currentOperand, previousOperand, operation}) {
+function evaluate({ currentOperand, previousOperand, operation }) {
   const prev = parseFloat(previousOperand)
   const current = parseFloat(currentOperand)
   if (isNaN(prev) || isNaN(current)) return ""
@@ -109,19 +109,20 @@ function evaluate({ currentOperand, previousOperand, operation}) {
       computation = prev / current
       break
   }
+
   return computation.toString()
 }
 
 const INTEGER_FORMATTER = new Intl.NumberFormat("en-us", {
   maximumFractionDigits: 0,
 })
-
 function formatOperand(operand) {
   if (operand == null) return
-  const [integer, decimal] = operand.split('.')
+  const [integer, decimal] = operand.split(".")
   if (decimal == null) return INTEGER_FORMATTER.format(integer)
   return `${INTEGER_FORMATTER.format(integer)}.${decimal}`
 }
+
 
 function App() {
   const [{ currentOperand, previousOperand, operation}, dispatch] = useReducer(reducer, {})
